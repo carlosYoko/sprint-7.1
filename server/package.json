@@ -13,6 +13,8 @@
   "author": "Carlos Gimenez <carlosgibe@gmail.com>",
   "license": "ISC",
   "devDependencies": {
+    "@types/nodemon": "^1.19.6",
+    "nodemon": "^3.0.3",
     "ts-node": "^10.9.1",
     "typescript": "^5.2.2"
   },

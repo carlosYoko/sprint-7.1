@@ -1,0 +1,19 @@
+{
+  "name": "prueba",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc && npm run remove-tests-folder",
+    "remove-tests-folder": "rm -rf dist/__tests__",
+    "build:watch": "tsc --build tsconfig.json --watch",
+    "test": "jest --coverage"
+  },
+  "keywords": [],
+  "author": "Carlos Gimenez <carlosgibe@gmail.com>",
+  "license": "ISC",
+  "devDependencies": {
+    "ts-node": "^10.9.1",
+    "typescript": "^5.2.2"
+  }
+}

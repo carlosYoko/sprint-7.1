@@ -7,7 +7,7 @@
     "build": "tsc && npm run remove-tests-folder",
     "remove-tests-folder": "rm -rf dist/__tests__",
     "build:watch": "tsc --build tsconfig.json --watch",
-    "test": "jest --coverage"
+    "dev": "nodemon --exec ts-node src/index.ts"
   },
   "keywords": [],
   "author": "Carlos Gimenez <carlosgibe@gmail.com>",
@@ -19,6 +19,7 @@
     "typescript": "^5.2.2"
   },
   "dependencies": {
+    "@types/express": "^4.17.21",
     "express": "^4.18.2",
     "passport": "^0.7.0",
     "passport-google-oauth20": "^2.0.0"

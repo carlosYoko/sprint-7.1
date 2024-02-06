@@ -14,10 +14,6 @@ function ChatRoom({ userName }: TPropsName) {
     const socket = io('http://localhost:3000');
     setSocket(socket);
 
-    socket.on('bienvenida', (message) => {
-      console.log(message);
-    });
-
     socket.on('mensaje', (message) => {
       setMessages((prevMessages) => [...prevMessages, message]);
     });

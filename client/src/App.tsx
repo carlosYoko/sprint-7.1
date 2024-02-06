@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import ChatRoom from './ChatRoom';
+import './App.css';
 
 function Home() {
   const [userName, setUserName] = useState('');
@@ -15,14 +16,14 @@ function Home() {
     <div>
       {!accepted ? (
         <div>
-          <h1>Bienvenido al Chat</h1>
+          <h1>WebSockets Chat</h1>
           <input
             type="text"
             placeholder="Ingresa tu nombre"
             value={userName}
             onChange={(e) => setUserName(e.target.value)}
           />
-          <button onClick={handleAccept}>Aceptar</button>
+          <button onClick={handleAccept}>Entrar</button>
         </div>
       ) : (
         <ChatRoom userName={userName} />

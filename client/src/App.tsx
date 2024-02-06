@@ -1,28 +1,54 @@
-import { useEffect } from 'react';
-import { io } from 'socket.io-client';
+import { useEffect, useState } from 'react';
+import { io, Socket } from 'socket.io-client';
 
 import './App.css';
 
 function App() {
+  const [socket, setSocket] = useState<Socket | null>(null);
+  const [messages, setMessages] = useState<string[]>([]);
+  const [mensajeNuevo, setMensajeNuevo] = useState<string>('');
+
   useEffect(() => {
     const socket = io('http://localhost:3000');
+    setSocket(socket);
 
-    // Escuchar el evento 'bienvenida' y mostrar el mensaje en la consola del navegador
-    socket.on('bienvenida', (mensaje) => {
-      console.log(mensaje);
+    socket.on('bienvenida', (message) => {
+      console.log(message);
     });
 
-    // Manejar la desconexión cuando el componente se desmonta
+    socket.on('mensaje', (message) => {
+      setMessages((prevMessages) => [...prevMessages, message]);
+    });
+
     return () => {
       socket.disconnect();
     };
-  }, []); // El array vacío asegura que se ejecute solo una vez al montar el componente
+  }, []);
+
+  const enviarMensaje = (newMessage: string) => {
+    if (socket && newMessage.trim() !== '') {
+      socket.emit('mensaje', newMessage);
+      setMessages((prevMessages) => [...prevMessages, newMessage]);
+      setMensajeNuevo('');
+    }
+  };
 
   return (
     <>
       <div>
         <h1>Chat</h1>
-        {/* Aquí puedes agregar el resto de tu interfaz de chat */}
+        <div className="div-chat">
+          {messages.map((mensaje, index) => (
+            <p key={index}>{mensaje}</p>
+          ))}
+        </div>
+        <input
+          type="text"
+          placeholder="Escribe tu mensaje"
+          value={mensajeNuevo}
+          onChange={(e) => setMensajeNuevo(e.target.value)}
+        />
+        <button onClick={() => enviarMensaje(mensajeNuevo)}>Enviar</button>
       </div>
     </>
   );

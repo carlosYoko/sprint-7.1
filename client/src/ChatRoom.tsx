@@ -18,14 +18,12 @@ function ChatRoom({ userName, roomName, setAccepted }: TPropsName) {
     const socket = io('http://localhost:3000');
     setSocket(socket);
 
-    // Unirse a la sala especificada
     socket.emit('joinRoom', roomName, userName);
 
     socket.on('message', (message) => {
       setMessages((prevMessages) => [...prevMessages, message]);
     });
 
-    // Escuchar la actualización de la lista de usuarios cuando alguien se desconecta
     socket.on('usersList', (updatedUserList) => {
       setUsersList(updatedUserList);
     });
@@ -49,7 +47,7 @@ function ChatRoom({ userName, roomName, setAccepted }: TPropsName) {
   return (
     <div>
       <h1>{roomName}</h1>
-      <BackToHomeButton setAccepted={setAccepted} />{' '}
+      <BackToHomeButton setAccepted={setAccepted} />
       <div className="div-container">
         <div className="div-chat">
           {messages.map((mensaje, index) => (

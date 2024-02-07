@@ -6,10 +6,10 @@ type TPropsName = {
 
 const BackToHomeButton: React.FC<TPropsName> = ({ setAccepted }) => {
   const handleBackToHome = () => {
-    setAccepted(false); // Establece el estado accepted en false para volver a mostrar el componente Home
+    setAccepted(false);
   };
 
-  return <button onClick={handleBackToHome}>Salir del chat</button>;
+  return <button onClick={handleBackToHome}>Salir de la sala</button>;
 };
 
 export default BackToHomeButton;

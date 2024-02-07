@@ -23,13 +23,7 @@ function Home() {
 
   return (
     <div>
-      {accepted ? (
-        <ChatRoom
-          userName={userName}
-          roomName={roomName}
-          setAccepted={setAccepted}
-        />
-      ) : (
+      {!accepted ? (
         <div>
           <h1>WebSockets Chat</h1>
           <input
@@ -56,6 +50,12 @@ function Home() {
           />
           <button onClick={handleCreateNewRoom}>Entrar nueva sala</button>
         </div>
+      ) : (
+        <ChatRoom
+          userName={userName}
+          roomName={roomName}
+          setAccepted={setAccepted}
+        />
       )}
     </div>
   );

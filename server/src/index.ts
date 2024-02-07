@@ -10,7 +10,6 @@ const io = new Server(server, {
   },
 });
 
-// Define un tipo para las salas
 type Rooms = {
   [key: string]: string[];
 };
@@ -23,6 +22,7 @@ const rooms: Rooms = {
 // Extiende el tipo 'Socket' para agregar la propiedad 'room'
 interface CustomSocket extends Socket {
   room?: string;
+  userName?: string;
 }
 
 io.on('connection', (socket: CustomSocket) => {
@@ -46,14 +46,44 @@ io.on('connection', (socket: CustomSocket) => {
     }
   });
 
-  socket.on('joinRoom', (roomName: string) => {
+  socket.on('joinRoom', (roomName: string, userName: string) => {
     // Une al usuario a una sala existente
     socket.join(roomName);
     socket.room = roomName; // Almacena el nombre de la sala en la instancia de socket
+    socket.userName = userName; // Almacena el nombre de usuario en la instancia de socket
+
+    rooms[roomName].push(userName);
+    // Obtén la lista actualizada de usuarios en la sala
+
+    const usersInRoom = rooms[roomName];
+    console.log(`Usuarios en la sala ${roomName}:`, usersInRoom);
+
+    io.to(roomName).emit('usersList', usersInRoom);
   });
 
   socket.on('disconnect', () => {
     console.log('Usuario desconectado');
+
+    // Obtiene la sala de la que se desconectó el usuario
+    const roomName = socket.room;
+
+    // Obtiene el nombre de usuario del socket
+    const userName = socket.userName;
+
+    // Verifica si la sala está definida y el usuario está en ella
+    if (roomName && rooms[roomName] && rooms[roomName].includes(userName!)) {
+      // Elimina al usuario del arreglo de usuarios en la sala
+      rooms[roomName] = rooms[roomName].filter((user) => user !== userName);
+
+      // Emitir la lista actualizada de usuarios en la sala
+      io.to(roomName).emit('usersList', rooms[roomName]);
+
+      // Muestra la lista actualizada de usuarios en la sala en el servidor
+      console.log(
+        `Usuarios en la sala ${roomName} después de la desconexión:`,
+        rooms[roomName]
+      );
+    }
   });
 });
 

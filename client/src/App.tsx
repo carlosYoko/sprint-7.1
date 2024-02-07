@@ -5,7 +5,7 @@ import './App.css';
 function Home() {
   const [userName, setUserName] = useState('');
   const [roomName, setRoomName] = useState('');
-  const [newRoomName, setNewRoomName] = useState(''); // Nuevo estado para el nombre de la nueva sala
+  const [newRoomName, setNewRoomName] = useState('');
   const [accepted, setAccepted] = useState(false);
 
   const handleAccept = () => {
@@ -17,13 +17,19 @@ function Home() {
   const handleCreateNewRoom = () => {
     if (newRoomName.trim() !== '') {
       setAccepted(true);
-      setRoomName(newRoomName); // Establece el nombre de la nueva sala como la sala seleccionada
+      setRoomName(newRoomName);
     }
   };
 
   return (
     <div>
-      {!accepted ? (
+      {accepted ? (
+        <ChatRoom
+          userName={userName}
+          roomName={roomName}
+          setAccepted={setAccepted}
+        />
+      ) : (
         <div>
           <h1>WebSockets Chat</h1>
           <input
@@ -37,23 +43,19 @@ function Home() {
             onChange={(e) => setRoomName(e.target.value)}
           >
             <option value="">Selecciona una sala</option>
-            <option value="Backend-coffee">Backend Coffee</option>
-            <option value="Off-topic">Off-topic</option>
+            <option value="backend-coffee">Backend Coffee</option>
+            <option value="off-topic">Off-topic</option>
           </select>
           <button onClick={handleAccept}>Entrar</button>
           <br />
-          {/* Nuevo campo de entrada para el nombre de la nueva sala */}
           <input
             type="text"
             placeholder="Ingresa el nombre de la nueva sala"
             value={newRoomName}
             onChange={(e) => setNewRoomName(e.target.value)}
           />
-          {/* Botón para crear una nueva sala */}
           <button onClick={handleCreateNewRoom}>Entrar nueva sala</button>
         </div>
-      ) : (
-        <ChatRoom userName={userName} roomName={roomName} />
       )}
     </div>
   );

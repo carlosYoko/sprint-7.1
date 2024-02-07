@@ -14,7 +14,7 @@ function ChatRoom({ userName }: TPropsName) {
     const socket = io('http://localhost:3000');
     setSocket(socket);
 
-    socket.on('mensaje', (message) => {
+    socket.on('message', (message) => {
       setMessages((prevMessages) => [...prevMessages, message]);
     });
 
@@ -25,7 +25,7 @@ function ChatRoom({ userName }: TPropsName) {
 
   const enviarMensaje = (newMessage: string) => {
     if (socket && newMessage.trim() !== '') {
-      socket.emit('mensaje', `${userName}: ${newMessage}`);
+      socket.emit('message', `${userName}: ${newMessage}`);
       setMessages((prevMessages) => [
         ...prevMessages,
         `${userName}: ${newMessage}`,

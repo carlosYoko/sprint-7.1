@@ -3,16 +3,20 @@ import { io, Socket } from 'socket.io-client';
 
 type TPropsName = {
   userName: string;
+  roomName: string;
 };
 
-function ChatRoom({ userName }: TPropsName) {
+function ChatRoom({ userName, roomName }: TPropsName) {
   const [socket, setSocket] = useState<Socket | null>(null);
   const [messages, setMessages] = useState<string[]>([]);
-  const [mensajeNuevo, setMensajeNuevo] = useState<string>('');
+  const [newMessage, setNewMessage] = useState<string>('');
 
   useEffect(() => {
     const socket = io('http://localhost:3000');
     setSocket(socket);
+
+    // Únete a la sala especificada
+    socket.emit('joinRoom', roomName);
 
     socket.on('message', (message) => {
       setMessages((prevMessages) => [...prevMessages, message]);
@@ -21,7 +25,7 @@ function ChatRoom({ userName }: TPropsName) {
     return () => {
       socket.disconnect();
     };
-  }, []);
+  }, [roomName]);
 
   const enviarMensaje = (newMessage: string) => {
     if (socket && newMessage.trim() !== '') {
@@ -30,13 +34,13 @@ function ChatRoom({ userName }: TPropsName) {
         ...prevMessages,
         `${userName}: ${newMessage}`,
       ]);
-      setMensajeNuevo('');
+      setNewMessage('');
     }
   };
 
   return (
     <div>
-      <h1>Chat</h1>
+      <h1>{roomName}</h1>
       <div className="div-chat">
         {messages.map((mensaje, index) => (
           <p key={index}>{mensaje}</p>
@@ -44,11 +48,11 @@ function ChatRoom({ userName }: TPropsName) {
       </div>
       <input
         type="text"
-        placeholder="Escribe tu mensaje"
-        value={mensajeNuevo}
-        onChange={(e) => setMensajeNuevo(e.target.value)}
+        placeholder="..."
+        value={newMessage}
+        onChange={(e) => setNewMessage(e.target.value)}
       />
-      <button onClick={() => enviarMensaje(mensajeNuevo)}>Enviar</button>
+      <button onClick={() => enviarMensaje(newMessage)}>Enviar</button>
     </div>
   );
 }

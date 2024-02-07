@@ -4,10 +4,11 @@ import './App.css';
 
 function Home() {
   const [userName, setUserName] = useState('');
+  const [roomName, setRoomName] = useState('');
   const [accepted, setAccepted] = useState(false);
 
   const handleAccept = () => {
-    if (userName.trim() !== '') {
+    if (userName.trim() !== '' && roomName.trim() !== '') {
       setAccepted(true);
     }
   };
@@ -23,10 +24,18 @@ function Home() {
             value={userName}
             onChange={(e) => setUserName(e.target.value)}
           />
+          <select
+            value={roomName}
+            onChange={(e) => setRoomName(e.target.value)}
+          >
+            <option value="">Selecciona una sala</option>
+            <option value="Backend-coffee">Backend Coffee</option>
+            <option value="Off-topic">Off-topic</option>
+          </select>
           <button onClick={handleAccept}>Entrar</button>
         </div>
       ) : (
-        <ChatRoom userName={userName} />
+        <ChatRoom userName={userName} roomName={roomName} />
       )}
     </div>
   );

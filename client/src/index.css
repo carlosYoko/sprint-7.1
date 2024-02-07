@@ -68,6 +68,10 @@ button:focus-visible {
   }
 }
 
+input {
+  margin: 6px;
+}
+
 .div-chat {
   height: 500px;
   width: 300px;

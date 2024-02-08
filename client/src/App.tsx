@@ -25,7 +25,7 @@ function Home() {
     <div>
       {!accepted ? (
         <div>
-          <h1>WebSockets Chat</h1>
+          <h1>WebSockets chat app</h1>
           <input
             type="text"
             placeholder="Ingresa tu nombre"

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import Login from './Login';
 import ChatRoom from './ChatRoom';
+import RoomsForm from './RoomsForm';
 import './App.css';
 
 function Home() {
@@ -27,22 +28,13 @@ function Home() {
       ) : (
         <div>
           <h1>Bienvenido, {userName}!</h1>
-          <select
-            value={roomName}
-            onChange={(e) => setRoomName(e.target.value)}
-          >
-            <option value="">Selecciona una sala</option>
-            <option value="backend-coffee">Backend Coffee</option>
-            <option value="off-topic">Off-topic</option>
-          </select>
-          <br />
-          <input
-            type="text"
-            placeholder="Nombre nueva sala"
-            value={newRoomName}
-            onChange={(e) => setNewRoomName(e.target.value)}
+          <RoomsForm
+            roomName={roomName}
+            setRoomName={setRoomName}
+            setNewRoomName={setNewRoomName}
+            newRoomName={newRoomName}
+            handleAccept={handleAccept}
           />
-          <button onClick={handleAccept}>Entrar</button>
         </div>
       )}
       {accepted && (roomName.trim() !== '' || newRoomName.trim() !== '') && (

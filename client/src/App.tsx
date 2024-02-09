@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import Login from './Login';
 import ChatRoom from './ChatRoom';
 import './App.css';
 
@@ -8,30 +9,24 @@ function Home() {
   const [newRoomName, setNewRoomName] = useState('');
   const [accepted, setAccepted] = useState(false);
 
-  const handleAccept = () => {
-    if (userName.trim() !== '' && roomName.trim() !== '') {
-      setAccepted(true);
-    }
+  const handleLogin = (userName: string) => {
+    setUserName(userName);
+    setAccepted(true);
   };
 
-  const handleCreateNewRoom = () => {
-    if (newRoomName.trim() !== '') {
+  const handleAccept = () => {
+    if (roomName.trim() !== '' || newRoomName.trim() !== '') {
       setAccepted(true);
-      setRoomName(newRoomName);
     }
   };
 
   return (
     <div>
       {!accepted ? (
+        <Login onLogin={handleLogin} />
+      ) : (
         <div>
-          <h1>WebSockets chat app</h1>
-          <input
-            type="text"
-            placeholder="Ingresa tu nombre"
-            value={userName}
-            onChange={(e) => setUserName(e.target.value)}
-          />
+          <h1>Bienvenido, {userName}!</h1>
           <select
             value={roomName}
             onChange={(e) => setRoomName(e.target.value)}
@@ -40,20 +35,20 @@ function Home() {
             <option value="backend-coffee">Backend Coffee</option>
             <option value="off-topic">Off-topic</option>
           </select>
-          <button onClick={handleAccept}>Entrar</button>
           <br />
           <input
             type="text"
-            placeholder="Ingresa el nombre de la nueva sala"
+            placeholder="Nombre nueva sala"
             value={newRoomName}
             onChange={(e) => setNewRoomName(e.target.value)}
           />
-          <button onClick={handleCreateNewRoom}>Entrar nueva sala</button>
+          <button onClick={handleAccept}>Entrar</button>
         </div>
-      ) : (
+      )}
+      {accepted && (roomName.trim() !== '' || newRoomName.trim() !== '') && (
         <ChatRoom
           userName={userName}
-          roomName={roomName}
+          roomName={roomName.trim() !== '' ? roomName : newRoomName}
           setAccepted={setAccepted}
         />
       )}

@@ -9,7 +9,7 @@ const BackToHomeButton: React.FC<TPropsName> = ({ setAccepted }) => {
     setAccepted(false);
   };
 
-  return <button onClick={handleBackToHome}>Salir de la sala</button>;
+  return <button onClick={handleBackToHome}>Cerrar sesión</button>;
 };
 
 export default BackToHomeButton;

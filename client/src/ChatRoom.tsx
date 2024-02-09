@@ -14,8 +14,6 @@ function ChatRoom({ userName, roomName, setAccepted }: TPropsName) {
   const [newMessage, setNewMessage] = useState<string>('');
   const [usersList, setUsersList] = useState<string[]>([]);
 
-  console.log(roomName);
-
   useEffect(() => {
     const socket = io('http://localhost:3000');
     setSocket(socket);

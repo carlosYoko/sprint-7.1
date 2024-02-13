@@ -45,20 +45,19 @@ function ChatRoom() {
       setUsersList(usersInRoom);
     });
 
+    socket.on('message', (msg) => {
+      console.log('mensaje nuevo:', msg);
+      if (msg.roomName === roomName) {
+        setMessages((prevMessages) => [...prevMessages, msg]);
+      }
+    });
+
     return () => {
       socket.disconnect();
     };
   }, [roomName, userName, isNewRoom]);
 
   useEffect(() => {
-    if (socket) {
-      socket.on('message', (msg) => {
-        console.log('mensaje nuevo:', msg);
-        setMessages((prevMessages) => [...prevMessages, msg]);
-      });
-      console.log(messages);
-    }
-
     const chatDiv = document.querySelector('.div-chat');
     if (chatDiv) {
       chatDiv.scrollTop = chatDiv.scrollHeight;

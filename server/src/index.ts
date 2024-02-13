@@ -64,11 +64,7 @@ io.on('connection', (socket: CustomSocket) => {
       await message.save();
       console.log('Mensaje guardado en la base de datos');
 
-      // Emitir el mensaje a la sala específica
-      io.to(roomName).emit('message', msg);
-
-      // Emitir un evento solo a las pestañas en la misma sala
-      io.to(roomName).emit('newMessage', msg);
+      socket.to(socket.room!).emit('message', msg);
     } catch (error) {
       console.error('Error al guardar el mensaje en la base de datos:', error);
     }

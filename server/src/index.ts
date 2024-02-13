@@ -27,7 +27,7 @@ app.post('/register', async (req, res) => {
   try {
     const existingUser = await Login.findOne({ userName: userName });
     if (existingUser) {
-      res.status(400).send('El nombre de usuario ya está en uso');
+      res.status(400).send('El nombre de usuario ya existe!');
       return;
     }
 

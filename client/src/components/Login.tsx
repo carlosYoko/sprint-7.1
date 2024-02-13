@@ -27,15 +27,14 @@ const Login = () => {
           navigate('/rooms-form', { state: { userName: newUserName } });
         } else {
           const errorMessage = await response.text();
-          console.error('Error al crear el usuario:', errorMessage);
-          alert('Error al crear el usuario. Por favor, inténtalo de nuevo.');
+          alert('Error: ' + errorMessage);
         }
       } catch (error) {
         console.error('Error al crear el usuario:', error);
         alert('Error al crear el usuario. Por favor, inténtalo de nuevo.');
       }
     } else {
-      alert('Por favor, ingresa un nombre de usuario y una contraseña válidos');
+      alert('Rellena todos los campos!');
     }
   };
 
@@ -58,19 +57,15 @@ const Login = () => {
           navigate('/rooms-form', { state: { userName: loginUserName } });
         } else {
           const errorMessage = await response.text();
-          console.error('Error al iniciar sesión:', errorMessage);
-          alert(
-            'Error al iniciar sesión. Por favor, verifica tus credenciales e inténtalo de nuevo.'
-          );
+          console.error('Error:', errorMessage);
+          alert('Error: ' + errorMessage);
         }
       } catch (error) {
         console.error('Error al iniciar sesión:', error);
         alert('Error al iniciar sesión. Por favor, inténtalo de nuevo.');
       }
     } else {
-      alert(
-        'Por favor, ingresa un nombre de usuario y una contraseña para iniciar sesión'
-      );
+      alert('Rellena todos los campos!');
     }
   };
 

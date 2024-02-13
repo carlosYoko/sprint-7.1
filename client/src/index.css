@@ -80,6 +80,7 @@ input {
   border: 2px solid #896969;
   background-color: #21354763;
   text-align: initial;
+  overflow: scroll;
 }
 
 .div-users {

@@ -2,6 +2,14 @@ import { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { io, Socket } from 'socket.io-client';
 
+type TMessages = {
+  content: string;
+  createdAt: string;
+  userName: string;
+  __v: number;
+  _id: string;
+};
+
 function ChatRoom() {
   const location = useLocation();
   const navigate = useNavigate();
@@ -12,7 +20,7 @@ function ChatRoom() {
 
   const [socket, setSocket] = useState<Socket | null>(null);
   const [usersList, setUsersList] = useState<string[]>([]);
-  const [messages, setMessages] = useState<string[]>([]);
+  const [messages, setMessages] = useState<Partial<TMessages>[]>([]);
   const [newMessageInput, setNewMessageInput] = useState<string>('');
 
   useEffect(() => {
@@ -24,11 +32,13 @@ function ChatRoom() {
     } else {
       socket.emit('createRoom', roomName);
       socket.emit('joinRoom', roomName, userName);
-      console.log('sala creada', roomName);
     }
 
-    socket.on('message', (msg) => {
-      setMessages([...messages, msg]);
+    socket.emit('getPreviousMessages', roomName);
+
+    socket.on('previousMessages', (messages) => {
+      console.log('Mensajes anteriores:', messages);
+      setMessages((prevMessages) => [...prevMessages, ...messages]);
     });
 
     socket.on('usersList', (usersInRoom) => {
@@ -38,7 +48,36 @@ function ChatRoom() {
     return () => {
       socket.disconnect();
     };
-  }, [messages, roomName, userName, isNewRoom]);
+  }, [roomName, userName, isNewRoom]);
+
+  useEffect(() => {
+    if (socket) {
+      socket.on('message', (msg) => {
+        console.log('mensaje nuevo:', msg);
+        setMessages((prevMessages) => [...prevMessages, msg]);
+      });
+      console.log(messages);
+    }
+
+    const chatDiv = document.querySelector('.div-chat');
+    if (chatDiv) {
+      chatDiv.scrollTop = chatDiv.scrollHeight;
+    }
+  }, [messages]);
+
+  useEffect(() => {
+    if (socket) {
+      // Manejar notificaciones de nuevos mensajes en la sala específica
+      socket.on('newMessage', (msg) => {
+        console.log('Nuevo mensaje recibido en la sala:', msg);
+        // Verificar si el nuevo mensaje pertenece a la sala actual
+        if (msg.roomName === roomName) {
+          // Actualizar el estado 'messages' con el nuevo mensaje
+          setMessages((prevMessages) => [...prevMessages, msg]);
+        }
+      });
+    }
+  }, [socket, roomName]);
 
   const handleReturn = () => {
     navigate('/rooms-form', { state: { userName } });
@@ -50,8 +89,12 @@ function ChatRoom() {
 
   const handleSendNewMessage = (newMessage: string) => {
     if (socket && newMessage.trim() !== '') {
-      socket.emit('message', `${userName}: ${newMessage}`);
-      setMessages([...messages, `${userName}: ${newMessage}`]);
+      const messageContent = `${userName}: ${newMessage}`;
+      setMessages((prevMessages) => [
+        ...prevMessages,
+        { content: messageContent },
+      ]);
+      socket.emit('message', messageContent, roomName);
     }
   };
 
@@ -62,7 +105,7 @@ function ChatRoom() {
       <div className="div-container">
         <div className="div-chat">
           {messages.map((msg, i) => (
-            <p key={i}>{msg}</p>
+            <p key={i}>{msg.content}</p>
           ))}
         </div>
         <div className="div-users">
@@ -82,7 +125,6 @@ function ChatRoom() {
           onClick={() => {
             handleSendNewMessage(newMessageInput);
             setNewMessageInput('');
-            console.log(newMessageInput);
           }}
         >
           Enviar

@@ -29,21 +29,49 @@ interface CustomSocket extends Socket {
 io.on('connection', (socket: CustomSocket) => {
   console.log('Usuario conectado');
 
-  socket.on('message', async (msg) => {
+  socket.on('getPreviousMessages', async (roomName) => {
+    try {
+      const messages = await Message.find({ roomName });
+      socket.emit('previousMessages', messages);
+      console.log('Mensajes anteriores enviados al cliente:', messages);
+    } catch (error) {
+      console.error('Error al obtener los mensajes anteriores:', error);
+    }
+  });
+
+  socket.on('connect', () => {
+    const roomName = socket.room;
+    if (roomName) {
+      Message.find({})
+        .then((messages) => {
+          socket.emit('previousMessages', messages);
+        })
+        .catch((error) => {
+          console.error('Error al obtener los mensajes anteriores:', error);
+        });
+    }
+  });
+
+  socket.on('message', async (msg, roomName) => {
     console.log(`Mensaje recibido: ${msg}`);
 
     try {
       const message = new Message({
         content: msg,
         userName: socket.userName!,
+        roomName: roomName,
       });
       await message.save();
       console.log('Mensaje guardado en la base de datos');
+
+      // Emitir el mensaje a la sala específica
+      io.to(roomName).emit('message', msg);
+
+      // Emitir un evento solo a las pestañas en la misma sala
+      io.to(roomName).emit('newMessage', msg);
     } catch (error) {
       console.error('Error al guardar el mensaje en la base de datos:', error);
     }
-
-    socket.to(socket.room!).emit('message', msg);
   });
 
   socket.on('createRoom', (roomName: string) => {
@@ -75,7 +103,6 @@ io.on('connection', (socket: CustomSocket) => {
     console.log('Usuario desconectado');
 
     const roomName = socket.room;
-
     const userName = socket.userName;
 
     if (roomName && rooms[roomName] && rooms[roomName].includes(userName!)) {

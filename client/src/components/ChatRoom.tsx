@@ -18,6 +18,7 @@ function ChatRoom() {
   useEffect(() => {
     const socket = io('http://localhost:3000');
     setSocket(socket);
+
     if (!isNewRoom) {
       socket.emit('joinRoom', roomName, userName);
     } else {

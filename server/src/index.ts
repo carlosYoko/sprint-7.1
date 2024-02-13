@@ -2,6 +2,7 @@ import http from 'http';
 import express from 'express';
 import { Server, Socket } from 'socket.io';
 import mongoose from 'mongoose';
+import Message from './models/Message';
 
 const app = express();
 const server = http.createServer(app);
@@ -28,8 +29,19 @@ interface CustomSocket extends Socket {
 io.on('connection', (socket: CustomSocket) => {
   console.log('Usuario conectado');
 
-  socket.on('message', (msg) => {
+  socket.on('message', async (msg) => {
     console.log(`Mensaje recibido: ${msg}`);
+
+    try {
+      const message = new Message({
+        content: msg,
+        userName: socket.userName!,
+      });
+      await message.save();
+      console.log('Mensaje guardado en la base de datos');
+    } catch (error) {
+      console.error('Error al guardar el mensaje en la base de datos:', error);
+    }
 
     socket.to(socket.room!).emit('message', msg);
   });

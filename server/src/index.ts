@@ -64,7 +64,7 @@ io.on('connection', (socket: CustomSocket) => {
       await message.save();
       console.log('Mensaje guardado en la base de datos');
 
-      socket.to(socket.room!).emit('message', msg);
+      socket.to(socket.room!).emit('message', message);
     } catch (error) {
       console.error('Error al guardar el mensaje en la base de datos:', error);
     }

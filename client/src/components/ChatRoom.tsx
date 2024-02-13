@@ -45,11 +45,9 @@ function ChatRoom() {
       setUsersList(usersInRoom);
     });
 
-    socket.on('message', (msg) => {
-      console.log('mensaje nuevo:', msg);
-      if (msg.roomName === roomName) {
-        setMessages((prevMessages) => [...prevMessages, msg]);
-      }
+    socket.on('message', (message) => {
+      console.log('mensaje nuevo:', message.content);
+      setMessages((prevMessages) => [...prevMessages, message]);
     });
 
     return () => {
@@ -63,20 +61,6 @@ function ChatRoom() {
       chatDiv.scrollTop = chatDiv.scrollHeight;
     }
   }, [messages]);
-
-  useEffect(() => {
-    if (socket) {
-      // Manejar notificaciones de nuevos mensajes en la sala específica
-      socket.on('newMessage', (msg) => {
-        console.log('Nuevo mensaje recibido en la sala:', msg);
-        // Verificar si el nuevo mensaje pertenece a la sala actual
-        if (msg.roomName === roomName) {
-          // Actualizar el estado 'messages' con el nuevo mensaje
-          setMessages((prevMessages) => [...prevMessages, msg]);
-        }
-      });
-    }
-  }, [socket, roomName]);
 
   const handleReturn = () => {
     navigate('/rooms-form', { state: { userName } });

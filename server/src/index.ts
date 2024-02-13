@@ -1,15 +1,70 @@
 import http from 'http';
 import express from 'express';
 import { Server, Socket } from 'socket.io';
+import cors from 'cors';
 import mongoose from 'mongoose';
 import Message from './models/Message';
+import Login from './models/Login';
 
 const app = express();
 const server = http.createServer(app);
+
+app.use(express.json());
+app.use(cors());
+
 const io = new Server(server, {
   cors: {
     origin: 'http://localhost:5173',
   },
+});
+
+app.get('/', (req, res) => {
+  res.json({ msg: 'hello' });
+});
+
+app.post('/register', async (req, res) => {
+  const { userName, password } = req.body;
+  try {
+    const existingUser = await Login.findOne({ userName: userName });
+    if (existingUser) {
+      res.status(400).send('El nombre de usuario ya está en uso');
+      return;
+    }
+
+    const newUser = new Login({
+      userName: userName,
+      password: password,
+    });
+    await newUser.save();
+    console.log(`Usuario ${userName} registrado correctamente`);
+    res.status(201).send('Usuario registrado correctamente');
+  } catch (error) {
+    console.error('Hubo un error al registrar el usuario:', error);
+    res.status(500).send('Hubo un error al registrar el usuario');
+  }
+});
+
+app.post('/login', async (req, res) => {
+  const { userName, password } = req.body;
+  try {
+    const user = await Login.findOne({ userName: userName });
+
+    if (!user) {
+      res.status(404).send('Usuario no encontrado');
+      return;
+    }
+
+    if (password !== user.password) {
+      res.status(401).send('Contraseña incorrecta');
+      return;
+    }
+
+    console.log(`Inicio de sesión exitoso para: ${userName}`);
+    res.status(200).send({ userName: userName });
+  } catch (error) {
+    console.error('Hubo un error al iniciar sesión:', error);
+    res.status(500).send('Hubo un error al iniciar sesión');
+  }
 });
 
 type Rooms = {

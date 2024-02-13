@@ -33,7 +33,6 @@ io.on('connection', (socket: CustomSocket) => {
     try {
       const messages = await Message.find({ roomName });
       socket.emit('previousMessages', messages);
-      console.log('Mensajes anteriores enviados al cliente:', messages);
     } catch (error) {
       console.error('Error al obtener los mensajes anteriores:', error);
     }
@@ -71,7 +70,6 @@ io.on('connection', (socket: CustomSocket) => {
   });
 
   socket.on('createRoom', (roomName: string) => {
-    console.log(rooms);
     if (!rooms[roomName]) {
       rooms[roomName] = [];
       socket.join(roomName);

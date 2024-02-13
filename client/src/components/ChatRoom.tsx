@@ -37,7 +37,6 @@ function ChatRoom() {
     socket.emit('getPreviousMessages', roomName);
 
     socket.on('previousMessages', (messages) => {
-      console.log('Mensajes anteriores:', messages);
       setMessages((prevMessages) => [...prevMessages, ...messages]);
     });
 

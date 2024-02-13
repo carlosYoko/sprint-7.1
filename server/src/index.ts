@@ -1,6 +1,7 @@
-import express from 'express';
 import http from 'http';
+import express from 'express';
 import { Server, Socket } from 'socket.io';
+import mongoose from 'mongoose';
 
 const app = express();
 const server = http.createServer(app);
@@ -79,6 +80,15 @@ io.on('connection', (socket: CustomSocket) => {
 
 const PORT = 3000;
 
-server.listen(PORT, () => {
-  console.log(`Servidor Socket.IO escuchando en el puerto ${PORT}`);
-});
+mongoose
+  .connect('mongodb://127.0.0.1:27017/it_chat')
+  .then(() => {
+    console.log('Conexión a MongoDB establecida correctamente');
+
+    server.listen(PORT, () => {
+      console.log(`Servidor Socket.IO escuchando en el puerto ${PORT}`);
+    });
+  })
+  .catch((error) => {
+    console.error('Error al conectar a MongoDB:', error);
+  });

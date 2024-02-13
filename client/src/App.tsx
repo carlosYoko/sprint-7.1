@@ -1,35 +1,17 @@
-import { useState } from 'react';
-import ChatRoom from './ChatRoom';
+import { Routes, Route } from 'react-router-dom';
+import Login from './components/Login';
+import ChatRoom from './components/ChatRoom';
+import RoomsForm from './components/RoomsForm';
 import './App.css';
 
-function Home() {
-  const [userName, setUserName] = useState('');
-  const [accepted, setAccepted] = useState(false);
-
-  const handleAccept = () => {
-    if (userName.trim() !== '') {
-      setAccepted(true);
-    }
-  };
-
+function App() {
   return (
-    <div>
-      {!accepted ? (
-        <div>
-          <h1>WebSockets Chat</h1>
-          <input
-            type="text"
-            placeholder="Ingresa tu nombre"
-            value={userName}
-            onChange={(e) => setUserName(e.target.value)}
-          />
-          <button onClick={handleAccept}>Entrar</button>
-        </div>
-      ) : (
-        <ChatRoom userName={userName} />
-      )}
-    </div>
+    <Routes>
+      <Route path={'/'} element={<Login />} />
+      <Route path={'/rooms-form'} element={<RoomsForm />} />
+      <Route path={'/chat-room'} element={<ChatRoom />} />
+    </Routes>
   );
 }
 
-export default Home;
+export default App;

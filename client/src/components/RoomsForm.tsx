@@ -7,6 +7,7 @@ const RoomsForm = () => {
 
   const [roomName, setRoomName] = useState('');
   const [newRoomName, setNewRoomName] = useState('');
+  const isNewRoom = 'hello';
 
   const navigate = useNavigate();
 
@@ -19,7 +20,7 @@ const RoomsForm = () => {
     if (newRoomName.trim() !== '') {
       console.log('Creando nueva sala:', newRoomName);
       const roomName = newRoomName;
-      navigate('/chat-room', { state: { userName, roomName } });
+      navigate('/chat-room', { state: { userName, roomName, isNewRoom } });
     }
   };
 

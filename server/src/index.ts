@@ -34,6 +34,7 @@ io.on('connection', (socket: CustomSocket) => {
   });
 
   socket.on('createRoom', (roomName: string) => {
+    console.log(rooms);
     if (!rooms[roomName]) {
       rooms[roomName] = [];
       socket.join(roomName);

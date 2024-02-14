@@ -73,41 +73,46 @@ const Login = () => {
   return (
     <>
       <h1>Chat - WebSockets</h1>
-      <h2>Nuevo Usuario</h2>
-      <input
-        type="text"
-        placeholder="Nombre de usuario"
-        value={newUserName}
-        onChange={(e) => setNewUserName(e.target.value)}
-      />
-      <br />
-      <input
-        type="password"
-        placeholder="Contraseña"
-        value={newPassword}
-        onChange={(e) => setNewPassword(e.target.value)}
-      />
-      <br />
-      <button onClick={handleCreateUser}>Crear</button>
-
-      <h2>Iniciar Sesión</h2>
-      <input
-        type="text"
-        placeholder="Nombre de usuario"
-        value={loginUserName}
-        onChange={(e) => setLoginUserName(e.target.value)}
-      />
-      <br />
-      <input
-        type="password"
-        placeholder="Contraseña"
-        value={loginPassword}
-        onChange={(e) => setLoginPassword(e.target.value)}
-      />
-      <br />
-      <button onClick={handleLogin}>Entrar</button>
-      <br />
-      <GoogleLoginButton />
+      <div className="container">
+        <div className="card">
+          <h2>Nuevo Usuario</h2>
+          <input
+            type="text"
+            placeholder="Nombre de usuario"
+            value={newUserName}
+            onChange={(e) => setNewUserName(e.target.value)}
+          />
+          <br />
+          <input
+            type="password"
+            placeholder="Contraseña"
+            value={newPassword}
+            onChange={(e) => setNewPassword(e.target.value)}
+          />
+          <br />
+          <button onClick={handleCreateUser}>Crear</button>
+        </div>
+        <div className="card">
+          <h2>Iniciar Sesión</h2>
+          <input
+            type="text"
+            placeholder="Nombre de usuario"
+            value={loginUserName}
+            onChange={(e) => setLoginUserName(e.target.value)}
+          />
+          <br />
+          <input
+            type="password"
+            placeholder="Contraseña"
+            value={loginPassword}
+            onChange={(e) => setLoginPassword(e.target.value)}
+          />
+          <br />
+          <button onClick={handleLogin}>Entrar</button>
+          <br />
+          <GoogleLoginButton />
+        </div>
+      </div>
     </>
   );
 };

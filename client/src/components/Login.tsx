@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+// import GoogleLoginButton from './GoogleLoginButton';
 
 const Login = () => {
   const [newUserName, setNewUserName] = useState('');
@@ -71,6 +72,7 @@ const Login = () => {
 
   return (
     <>
+      <h1>Chat - WebSockets</h1>
       <h2>Crear Usuario</h2>
       <input
         type="text"
@@ -104,6 +106,8 @@ const Login = () => {
       />
       <br />
       <button onClick={handleLogin}>Entrar</button>
+      <br />
+      {/* <GoogleLoginButton /> */}
     </>
   );
 };

@@ -18,10 +18,6 @@ const io = new Server(server, {
   },
 });
 
-app.get('/', (req, res) => {
-  res.json({ msg: 'hello' });
-});
-
 app.post('/register', async (req, res) => {
   const { userName, password } = req.body;
   try {

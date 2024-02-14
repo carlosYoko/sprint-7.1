@@ -31,9 +31,11 @@ app.post('/register', async (req, res) => {
       return;
     }
 
+    const base64Password = Buffer.from(password).toString('base64');
+
     const newUser = new Login({
       userName: userName,
-      password: password,
+      password: base64Password,
     });
     await newUser.save();
     console.log(`Usuario ${userName} registrado correctamente`);
@@ -54,7 +56,11 @@ app.post('/login', async (req, res) => {
       return;
     }
 
-    if (password !== user.password) {
+    const base64Password = Buffer.from(user.password, 'base64').toString(
+      'utf-8'
+    );
+
+    if (password !== base64Password) {
       res.status(401).send('Contraseña incorrecta');
       return;
     }

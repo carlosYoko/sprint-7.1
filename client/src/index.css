@@ -97,3 +97,8 @@ input {
 .div-container {
   display: flex;
 }
+
+.google-login-button {
+  display: flex;
+  justify-content: center;
+}

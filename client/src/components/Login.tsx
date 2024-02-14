@@ -1,8 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import GoogleLoginButton from './GoogleLoginButton';
-import { GoogleLogin } from '@react-oauth/google';
-import { jwtDecode } from 'jwt-decode';
 
 const Login = () => {
   const [newUserName, setNewUserName] = useState('');
@@ -75,7 +73,7 @@ const Login = () => {
   return (
     <>
       <h1>Chat - WebSockets</h1>
-      <h2>Crear Usuario</h2>
+      <h2>Nuevo Usuario</h2>
       <input
         type="text"
         placeholder="Nombre de usuario"
@@ -90,7 +88,7 @@ const Login = () => {
         onChange={(e) => setNewPassword(e.target.value)}
       />
       <br />
-      <button onClick={handleCreateUser}>Guardar Usuario</button>
+      <button onClick={handleCreateUser}>Crear</button>
 
       <h2>Iniciar Sesión</h2>
       <input

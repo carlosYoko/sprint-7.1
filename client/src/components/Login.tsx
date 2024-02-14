@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import GoogleLoginButton from './GoogleLoginButton';
 
 const Login = () => {
   const [newUserName, setNewUserName] = useState('');
@@ -106,6 +107,7 @@ const Login = () => {
       <br />
       <button onClick={handleLogin}>Entrar</button>
       <br />
+      <GoogleLoginButton />
     </>
   );
 };

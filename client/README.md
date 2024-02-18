@@ -1,30 +1,17 @@
-# React + TypeScript + Vite
+# Chat en tiempo real
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Este proyecto se enfoca en desarrollar una aplicación de chat en tiempo real utilizando Socket.io, una biblioteca de JavaScript para aplicaciones web en tiempo real. La aplicación permitirá a los usuarios comunicarse bidireccionalmente en tiempo real entre clientes y servidores web.
 
-Currently, two official plugins are available:
+##### Trabajo del Sprint 7.1 de IT-Academy en la especialización de Node.js.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Partes destacables del proyecto
 
-## Expanding the ESLint configuration
+- Una página de inicio de sesión donde los usuarios puedan registrarse e ingresar a salas de chat.
+- Gestión de múltiples salas de chat.
+- Persistencia de mensajes utilizando MongoDB.
+- Autenticación utilizando Google Token.
+- React/TypeScript
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## Licencia
 
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
-
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+Este proyecto está bajo la Licencia MIT - consulta el archivo [LICENSE.md](./LICENSE.md) para más detalles.

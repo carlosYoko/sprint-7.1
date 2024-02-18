@@ -1,85 +1,17 @@
-# Plantilla TypeScript con Jest
+# Chat en tiempo real
 
-Template basico de configuración TypeScript con Jest.
-<br>
+Este proyecto se enfoca en desarrollar una aplicación de chat en tiempo real utilizando Socket.io, una biblioteca de JavaScript para aplicaciones web en tiempo real. La aplicación permitirá a los usuarios comunicarse bidireccionalmente en tiempo real entre clientes y servidores web.
 
-> [!IMPORTANT]
-> Crear carpeta /dist en la raiz del proyecto para evitar error de tsconfig.
+##### Trabajo del Sprint 7.1 de IT-Academy en la especialización de Node.js.
 
-## Instrucciones para crear la plantilla desde 0
+## Partes destacables del proyecto
 
-Crear el archivo `package.json` con el siguiente comando:
+- Una página de inicio de sesión donde los usuarios puedan registrarse e ingresar a salas de chat.
+- Gestión de múltiples salas de chat.
+- Persistencia de mensajes utilizando MongoDB.
+- Autenticación utilizando Google Token.
+- React/TypeScript
 
-```bash
-npm init -y
-```
+## Licencia
 
-Instalar las dependencias con el siguiente comando:
-
-```bash
-npm install typescript ts-node jest ts-jest @types/jest --save-dev
-```
-
-Crear archivo `tsconfig.json` con el siguiente comando:
-
-```bash
-npx tsc --init
-```
-
-## Scripts
-
-Incluir scripts y configuracion del type en el archivo `package.json`:
-
-```json
-"type": "module",
-
-"scripts": {
-    "build": "tsc && npm run remove-tests-folder",
-    "remove-tests-folder": "rm -rf dist/__tests__",
-    "build:watch": "tsc --build tsconfig.json --watch",
-    "test": "jest --coverage",
-    "test:watch": "jest --coverage --watchAll",
-}
-```
-
-## Configuracion de Jest
-
-Crear un archivo `jest.config.json` con la siguiente configuración para Jest:
-
-```json
-{
-  "transform": {
-    "^.+\\.tsx?$": [
-      "ts-jest",
-      {
-        "tsconfig": "./tsconfig.json",
-        "module": "commonjs"
-      }
-    ]
-  },
-  "moduleFileExtensions": ["ts", "tsx", "js", "jsx", "json", "node"]
-}
-```
-
-## Configuración de TypeScript
-
-Hay que editar el archivo tsconfig.json con la siguiente configuración:
-
-```json
-{
-  "compilerOptions": {
-    "target": "ES6",
-    "module": "commonjs",
-    "sourceMap": true,
-    "rootDir": "./src",
-    "outDir": "./dist",
-    "strict": true,
-    "esModuleInterop": true,
-    "noEmitOnError": false,
-    "removeComments": true,
-    "types": ["jest"]
-  },
-  "include": ["./src/**/*"],
-  "exclude": ["node_modules", "dist", ".src/__tests__"]
-}
-```
+Este proyecto está bajo la Licencia MIT - consulta el archivo [LICENSE.md](./LICENSE.md) para más detalles.
